@@ -1,0 +1,71 @@
+<div class="w-screen rounded-sm flex flex-col items-center gap-6 mb-6">
+  <div class="w-full rounded-sm flex flex-grow-0 px-6 py-4 mb-2 sm:w-3/4">
+    <app-button routerLink="/">Return</app-button>
+  </div>
+
+  <section class="flex flex-col bg-white-0 w-full sm:w-3/4 min-h-12 px-6 py-4 motion-preset-slide-down-lg flex-wrap">
+    <section class="flex justify-between items-end flex-wrap gap-4">
+      <div class="w-fit flex flex-col gap-2">
+        <h1 class="text-3xl text-white-800 motion-preset-slide-left-lg motion-delay-200">Categories</h1>
+        <app-divider className="motion-preset-slide-right-lg motion-duration-700 motion-delay-200"/>
+        <h3 class="text-xl text-white-700 motion-preset-slide-left-lg motion-delay-200">Manage you finance boundaries
+        </h3>
+      </div>
+
+      <div class="flex gap-2 sm:flex-row flex-col items-end w-full">
+        <div class="flex flex-col motion-preset-slide-right-lg motion-delay-200 w-full">
+          
+          <app-form-field label="Categories">
+            <app-select [options]="categoriesOptions" [formControl]="selectedOption">
+              <app-select-container>
+                @for (category of categoriesOptions; track category.value) {
+                  <app-select-option [option]="category">{{ category.label }}</app-select-option>
+                }
+              </app-select-container>
+            </app-select>
+          </app-form-field>
+
+        </div>
+        <app-button class="w-full" (click)="editCurrentCategory()" *ngIf="currentCategory">Edit Category</app-button>
+
+        <app-button class="w-full" routerLink="create">
+          Create Category
+        </app-button>
+
+      </div>
+    </section>
+
+    <section>
+        <app-loader [isLoading]="isLoadingCurrentCategory"/>
+       
+        @if (!isLoadingCurrentCategory && currentCategory) {
+        <div class="flex flex-wrap min-h-72 py-4 gap-2 motion-preset-fade-md motion-duration-500">
+
+          @if (hasContraint) {
+
+            <div class="flex-1 bg-white-0 shadow-sm border-white-50 border rounded-md flex flex-col p-2 items-center">
+              <h4 class="text-lg text-primary text-nowrap">{{ constraintTitle }}</h4>
+              
+              <span class="flex h-full w-full justify-center items-center text-xl text-white-700 text-nowrap">{{ constraint }}</span>
+            </div>
+          }
+
+          <div class="flex-1 bg-white-0 shadow-sm border-white-50 border rounded-md flex flex-col p-2 items-center">
+              <h4 class="text-lg text-primary text-nowrap"> Total Transactions Registered </h4>
+
+
+              <span class="flex h-full w-full justify-center items-center text-xl text-white-700 text-nowrap">{{ currentCategory.totalTransactionsRegistered }}</span>
+          </div>
+
+        </div>
+      } @else if (!isLoadingCurrentCategory) {
+      <div class="w-full h-96 flex justify-center items-center motion-preset-fade motion-duration-1000">
+        <span class="text-gray-500">No Category Selected</span>
+      </div>
+      }
+    </section>
+  </section>
+
+
+
+</div>
