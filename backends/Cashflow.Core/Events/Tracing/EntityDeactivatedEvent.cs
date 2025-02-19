@@ -12,6 +12,6 @@ public class EntityDeactivatedEvent<T> : BaseEvent
 
     public override string Description()
     {
-        throw new NotImplementedException();
+        return $"Entity {typeof(T).FullName} with Id {_entity.Id} has been deactivated at {DateTime.UtcNow:O}.";
     }
 }

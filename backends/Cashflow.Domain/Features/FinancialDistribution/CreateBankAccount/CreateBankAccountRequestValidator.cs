@@ -6,7 +6,7 @@ public class CreateBankAccountRequestValidator : AbstractValidator<CreateBankAcc
 {
     public CreateBankAccountRequestValidator()
     {
-        RuleFor(c => c.AccountType)
+        RuleFor(c => c.Type)
             .NotEmpty().WithMessage("Account type must not be empty.");
         
         RuleFor(c => c.Name)

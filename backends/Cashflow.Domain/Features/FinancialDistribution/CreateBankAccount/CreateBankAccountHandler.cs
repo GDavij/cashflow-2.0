@@ -20,18 +20,18 @@ public class CreateBankAccountHandler
         _authenticatedUser = authenticatedUser;
     }
 
-    public record Request(short AccountType, string Name, decimal? InitialValue);
+    public record Request(short Type, string Name, decimal? InitialValue);
 
     public record Response(long Id);
 
     public async Task<Response> HandleAsync(Request request)
     {
-        _logger.LogInformation("Attemping to create a Bank account with type {0} and name {1} for user with id {2}", request.AccountType, request.Name, _authenticatedUser.Id);
-        bool accountTypeExists = await _dbContext.AccountTypes.AnyAsync(a => a.Id == request.AccountType);
+        _logger.LogInformation("Attemping to create a Bank account with type {0} and name {1} for user with id {2}", request.Type, request.Name, _authenticatedUser.Id);
+        bool accountTypeExists = await _dbContext.AccountTypes.AnyAsync(a => a.Id == request.Type);
         if (accountTypeExists is false)
         {
-            _logger.LogError("An attempt to create a bank account with non existent account type {0} was made.", request.AccountType);
-            throw new AttemptToCreateBankAccountWithNonExistentAccountTypeException(request.AccountType);
+            _logger.LogError("An attempt to create a bank account with non existent account type {0} was made.", request.Type);
+            throw new AttemptToCreateBankAccountWithNonExistentAccountTypeException(request.Type);
         }
 
         bool hasAnyBankAccountWithSameName = await _dbContext.BankAccounts.AnyAsync(b => b.Name == request.Name &&
@@ -42,7 +42,7 @@ public class CreateBankAccountHandler
             throw new AttemptToDuplicateBankAccountNameException(request.Name);
         }
 
-        BankAccount bankAccount = new BankAccount(request.AccountType, request.Name);
+        BankAccount bankAccount = new BankAccount(request.Type, request.Name);
 
         _dbContext.BankAccounts.Add(bankAccount);
         await _dbContext.SaveChangesAsync();

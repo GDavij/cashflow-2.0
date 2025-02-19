@@ -16,7 +16,8 @@ import { catchError, EMPTY, finalize, retry } from 'rxjs';
 import { SelectOptionComponent } from '../../../../components/select/select-option/select-option.component';
 import { LoaderComponent } from "../../../../components/loader/loader.component";
 import { DividerComponent } from '../../../../components/divider/divider.component';
-import { CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { TransactionAccordionComponent } from './components/transaction-accordion/transaction-accordion.component';
 
 @Component({
   selector: 'app-bank-accounts',
@@ -29,7 +30,9 @@ import { CurrencyPipe } from '@angular/common';
     ReactiveFormsModule,
     LoaderComponent,
     DividerComponent,
-    CurrencyPipe
+    CurrencyPipe,
+    CommonModule,
+    TransactionAccordionComponent
 ],
   templateUrl: './bank-accounts.component.html',
   styleUrl: './bank-accounts.component.scss',
@@ -81,7 +84,7 @@ export class BankAccountsComponent implements OnInit {
 
     subject.subscribe((bankAccount) => {
       this.currentBankAccount = bankAccount;
-
+      console.log({bankAccount});
       setTimeout(() => {
         this.isLoadingCurrentBankAccount = false;
       }, 200)

@@ -58,7 +58,7 @@ export class EditComponent implements OnInit {
     private readonly _dialog: Dialog) { }
 
   get id(): string | null {
-    return this._activatedRoute.snapshot.paramMap.get('id');
+    return this._activatedRoute.snapshot.paramMap.get('id') ?? null;
   }
 
   ngOnInit(): void {
@@ -173,7 +173,11 @@ export class EditComponent implements OnInit {
   }
 
   asPercentage(value: number) {
-    return value * 100;
+    if (value) {
+      return value * 100;
+    }
+
+    return null;
   }
 
 

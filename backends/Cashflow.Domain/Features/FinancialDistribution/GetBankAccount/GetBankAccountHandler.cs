@@ -46,7 +46,8 @@ public class GetBankAccountHandler
                 Name = b.Name,
                 Type = new AccountTypeDto(b.AccountType.Id, b.AccountType.Name),
                 CurrentValue = b.CurrentValue
-            }).FirstOrDefaultAsync( cancellationToken);
+            }).FirstOrDefaultAsync(cancellationToken);
+        
         if (result is null)
         {
             _logger.LogError("An attempt to get a non existent bank account was made.");
@@ -64,9 +65,10 @@ public class GetBankAccountHandler
                                                      select new TransactionDto(transactions.Id,
                                                                                transactions.Description,
                                                                                transactions.DoneAt,
+                                                                               transactions.Value,
                                                                                transactionMethod.Name,
                                                                                category != null ? new CategoryDto(category.Id, category.Name) : null);
-
+        
         result = result with
         {
             TotalTransactionsRegistered = await transactionsQuery.CountAsync(cancellationToken),

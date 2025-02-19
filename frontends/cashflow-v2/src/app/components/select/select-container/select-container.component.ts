@@ -58,6 +58,7 @@ export class SelectContainerComponent implements AfterViewInit {
     }
 
     this.options.forEach(opt => {
+      console.log({loadingOptions: opt});
       this.optionsSubscriptions.push(opt.onSelectEvent.subscribe(opt => {
         this.onSelectionEvent.emit(opt);
       }))

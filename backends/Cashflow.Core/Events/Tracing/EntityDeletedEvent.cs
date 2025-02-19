@@ -10,5 +10,5 @@ public class EntityDeletedEvent<T> : BaseEvent
         _entity = entity;
     }
 
-    public override string Description() => $"Entity of type {typeof(T).FullName} identified by Id {_entity.Id} has been deleted at {DateTime.UtcNow}";
+    public override string Description() => $"Entity of type {typeof(T).FullName} identified by Id {_entity.Id} has been deleted at {DateTime.UtcNow:O}";
 }

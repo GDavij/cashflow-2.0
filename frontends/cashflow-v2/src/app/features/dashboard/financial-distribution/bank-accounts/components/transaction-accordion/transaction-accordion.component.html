@@ -1,0 +1,48 @@
+<cdk-accordion class="flex flex-col justify-start w-full  gap-6">
+    @for (transaction of transactions; track transaction.id; let index = $index) {
+        <cdk-accordion-item #accordionItem="cdkAccordionItem" class="flex bg-white-50 flex-col motion-preset-focus gap-6 px-6 py-4 shadow-md rounded-sm">
+            <button class="flex justify-between w-full"
+                    (click)="accordionItem.toggle()"
+                    tabindex="0"
+                    [attr.id]="'transaction-' + index"
+                    [attr.aria-expanded]="accordionItem.expanded"
+                    [attr.aria-controls]="'transaction-panel-' + index">
+                    <div class="flex flex-col gap-2 items-start">
+                        <div class="text-primary">{{ transaction.description}}</div>
+                        <div class="flex gap-2">
+                            <div class="w-1 h-12 bg-primary rounded-md"></div>
+                            <div class="flex flex-col">
+                                <div>
+                                    <ng-icon name="matAccessTimeRound"></ng-icon>
+                                    {{ transaction.doneAt | date }}
+                                </div>
+                                <div>
+                                    {{transaction.transactionMethod}} of {{ transaction.value | currency: 'BRL' : 'code' }}
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                    <div [class]="'w-8 h-8 flex justify-center items-center text-primary hover:text-primary-hover active:text-primary-active bg-white-0 p-2 rounded-full ' + (accordionItem.expanded ? 'transform -rotate-90' : '')">
+                        <ng-icon name="matArrowBackIosRound"/>
+                    </div>
+                </button>
+
+                @if (accordionItem.expanded) {
+                   <div class="motion-preset-slide-down bg-white-0 rounded-sm py-6 px-2 flex flex-col">
+                    <div class="text-primary-active">Details</div>
+                        <div>
+                            The {{transaction.transactionMethod}} Transaction distributed to this Bank account has a value of {{transaction.value | currency: 'BRL' : 'code'}} and was done at {{transaction.doneAt | date}}.
+                            @if (transaction.category) {
+                                Categorized as category <a [routerLink]="'/categories/' + transaction.category.id">{{ transaction.category.name }}.</a>
+                            }
+                        </div>
+                    <div class="flex flex-col">
+                    </div>
+                </div>
+                }
+        </cdk-accordion-item>
+    }
+    <div>
+        <app-button routerLink="">View All Transactions</app-button>
+    </div>
+</cdk-accordion>

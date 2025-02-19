@@ -1,10 +1,12 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { twMerge } from 'tailwind-merge';
+import { provideNgxMask, NgxMaskDirective } from 'ngx-mask';
+
 
 @Component({
   selector: 'app-input',
-  imports: [],
+  imports: [NgxMaskDirective],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
   providers: [
@@ -12,7 +14,8 @@ import { twMerge } from 'tailwind-merge';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputComponent),
       multi: true
-    }
+    },
+    provideNgxMask()
   ]
 })
 export class InputComponent implements ControlValueAccessor {
@@ -21,6 +24,8 @@ export class InputComponent implements ControlValueAccessor {
   @Input() placeholder: string = '';
   @Input() className: string = '';
   @Input() disabled: boolean = false;
+  @Input() type: 'text' | 'number' = 'text';
+  @Input() mask: string | null = null;
 
   value: any;
 
@@ -42,6 +47,17 @@ export class InputComponent implements ControlValueAccessor {
   onTouched(): void { }
 
   //#endregion
+
+  handleInputChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    this.onChange(input.value);
+    this.writeValue(input.value);
+  }
+
+  handleBlur(): void {
+    this.onTouched();
+  }
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;

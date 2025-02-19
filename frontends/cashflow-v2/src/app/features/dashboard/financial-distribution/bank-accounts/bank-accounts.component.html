@@ -87,10 +87,30 @@
 
   <section class="flex flex-col bg-white-0 w-full sm:w-3/4 min-h-12 px-6 py-4 motion-preset-slide-down-lg flex-wrap">
     <section class="flex justify-between items-end flex-wrap gap-4">
-      <div class="w-fit flex flex-col gap-2">
-        <h1 class="text-3xl text-white-800 motion-preset-slide-left-lg motion-delay-200"> Last Transactions </h1>
-        <app-divider className="motion-preset-slide-right-lg motion-duration-700 motion-delay-200" />
-        <h3 class="text-xl text-white-700 motion-preset-slide-left-lg motion-delay-200"> How your funds have been distributed </h3>
+      <div class="flex w-full justify-between flex-wrap items-end">
+        <div class="w-fit flex flex-col gap-2">
+          <h1 class="text-3xl text-white-800 motion-preset-slide-left-lg motion-delay-200"> Last Transactions </h1>
+          <app-divider className="motion-preset-slide-right-lg motion-duration-700 motion-delay-200" />
+          <h3 class="text-xl text-white-700 motion-preset-slide-left-lg motion-delay-200"> How your funds have been distributed </h3>
+        </div>
+
+        <div>
+          <app-button>Create New Transaction</app-button>
+        </div>
+      </div>
+
+      <section class="flex flex-col gap-6 w-full">
+
+        @if (currentBankAccount && currentBankAccount.lastTransactions && currentBankAccount!.lastTransactions!.length > 0) {
+          @for (transaction of currentBankAccount.lastTransactions; track transaction.id) {
+            <app-transaction-accordion [transactions]="currentBankAccount.lastTransactions"/>
+          }
+        } @else {
+          <div>No Transactions Made</div>
+        }
+      </section>
+        <div>
+
       </div>
     </section>
   </section>

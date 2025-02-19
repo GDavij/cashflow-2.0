@@ -75,7 +75,6 @@ internal class CashflowDbContext : DbContext, ICashflowDbContext
     {
        foreach (var @event in source.Invoke())
        {
-           
            var auditionEvent = new AuditionEvent
            {
                Event = @event.Description(),

@@ -1,14 +1,15 @@
 import { AccountType } from "./account-type"
+import { Transaction } from "./transaction"
 
-export type BankAccountListItem = {
-  id: number,
-  name: string,
-  currentValue: number,
-  accountType: AccountType 
-  active: boolean
+export interface BankAccountListItem {
+  id: number;
+  name: string;
+  currentValue: number;
+  accountType: AccountType;
+  active: boolean;
 }
 
-interface BankAccount {
+export interface BankAccount {
   id: number;
   type: AccountType;
   currentValue: number;
@@ -16,4 +17,12 @@ interface BankAccount {
   totalTransactionsRegistered: number;
   lastTransactions: Transaction[];
   active: boolean;
+}
+
+export interface SaveBankAccountPayload {
+  id: number;
+  name: string;
+  type: number;
+  initialValue: number;
+  active: boolean
 }

@@ -31,7 +31,7 @@
 
     <section>
       <app-loader [isLoading]="isLoadingCurrentCategory" />
-      @if (id && !isLoadingCurrentCategory) {
+      @if (!isLoadingCurrentCategory) {
       <section class=" w-full  h-96 motion-preset-fade motion-duration-1000 mt-24">
 
         <form class="flex flex-col gap-4" [formGroup]="form" (submit)="handleSubmit()">
@@ -55,7 +55,7 @@
           <div class="flex gap-4 md:flex-row flex-col">
             <div class="md:basis-1/4 basis-full flex flex-col motion-preset-fade-lg motion-delay-200">
               <app-form-field label="Has Boundary" [required]="true">
-                <app-select [options]="financialBoundaries" [isStaticOptions]="true" [formControl]="hasBoundary">
+                <app-select [options]="financialBoundaries" [formControl]="hasBoundary">
                   <app-select-container>
                     @for (boundary of financialBoundaries; track boundary.value) {
                     <app-select-option [option]="boundary">{{ boundary.label }}</app-select-option>
@@ -106,7 +106,7 @@
           </div>
 
           <app-form-field label="Active" [required]="true" class="flex flex-col" *ngIf="fetchedCategory">
-            <app-select [options]="activeOptions" [isStaticOptions]="true" formControlName="active">
+            <app-select [options]="activeOptions" formControlName="active">
               <app-select-container>
                 @for (option of activeOptions; track option.value) {
                   <app-select-option [option]="option">{{ option.label }}</app-select-option>

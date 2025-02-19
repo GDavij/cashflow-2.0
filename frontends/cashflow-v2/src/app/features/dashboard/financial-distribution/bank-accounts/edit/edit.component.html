@@ -8,20 +8,21 @@
       <div class="w-fit flex flex-col gap-2">
         <h1 class="text-3xl text-white-800 motion-preset-slide-left-lg motion-delay-200">{{id ? "Edit" : "Create"}}
           Bank Account</h1>
-        <app-divider className="motion-preset-slide-right-lg motion-duration-700 motion-delay-200"/>
-          <h3 class="text-xl text-white-700 motion-preset-slide-left-lg motion-delay-200">
+        <app-divider className="motion-preset-slide-right-lg motion-duration-700 motion-delay-200" />
+        <h3 class="text-xl text-white-700 motion-preset-slide-left-lg motion-delay-200">
           {{id ? "Refine a " : "Define a new "}} Distribution
         </h3>
       </div>
 
       <section class="flex flex-wrap-reverse justify-end items-end gap-2">
         @if (fetchedBankAccount) {
-            <app-button [disabled]="form.invalid || isSavingBankAccount || isDeletingBankAccount" (click)="resetForm()">
-                Reset values
-            </app-button>
+        <app-button [disabled]="form.invalid || isSavingBankAccount || isDeletingBankAccount" (click)="resetForm()">
+          Reset values
+        </app-button>
         }
 
-        <app-button [disabled]="form.invalid || isSavingBankAccount || isDeletingBankAccount" [loading]="isSavingBankAccount" (click)="handleSubmit()">
+        <app-button [disabled]="form.invalid || isSavingBankAccount || isDeletingBankAccount"
+          [loading]="isSavingBankAccount" (click)="handleSubmit()">
           {{ id ? "Alter Bank Account" : "Save Bank Account" }}
         </app-button>
       </section>
@@ -29,21 +30,55 @@
     </section>
 
     <section>
-      @if (id && isLoadingCurrentBankAccount) {
-      <div class="w-full h-96 flex justify-center items-center motion-preset-fade motion-duration-1000">
-        <div class="w-12 h-12 border-4 border-t-4 border-white-400 rounded-full animate-spin border-t-primary"></div>
-      </div>
-      }
-      @else {
+
+      <app-loader [isLoading]="isLoadingCurrentBankAccount" />
+      @if (!isLoadingCurrentBankAccount) {
       <section class=" w-full  h-96 motion-preset-fade motion-duration-1000 mt-24">
 
         <form class="flex flex-col gap-4" [formGroup]="form" (submit)="handleSubmit()">
-          
-          
+          <app-form-field label="Name" [required]="true">
+            <app-input placeholder="NuBank Debit Card" formControlName="name" />
+          </app-form-field>
+
+          <div class="flex gap-2">
+            @if (!this.id) {
+
+              <app-form-field className="flex-1" label="Account Type" [required]="true">
+                <app-select [options]="accountOptions" formControlName="type">
+                  <app-select-container>
+                    @for (accountOption of accountOptions; track accountOption.value) {
+                  <app-select-option [option]="accountOption">
+                    {{ accountOption.label }}
+                  </app-select-option>
+                }
+              </app-select-container>
+            </app-select>
+          </app-form-field>
+        }
+
+            @if (!this.id) {
+            <app-form-field label="Current Account Balance" [required]="false">
+              <app-input placeholder="1000.00" formControlName="initialValue" type="number" />
+            </app-form-field>
+            }
+          </div>
+
+          <app-form-field label="Activated" [required]="true">
+            <app-select [options]="activeOptions" formControlName="active">
+              <app-select-container>
+                @for (activeOption of activeOptions; track activeOption.value) {
+                <app-select-option [option]="activeOption">
+                  {{ activeOption.label }}
+                </app-select-option>
+                }
+              </app-select-container>
+            </app-select>
+          </app-form-field>
         </form>
       </section>
       @if (fetchedBankAccount) {
-        <app-button (click)="openDeleteDialog()" className="bg-error hover:bg-error-hover active:bg-error-active" [loading]="isDeletingBankAccount" [disabled]="isDeletingBankAccount"> Delete Category</app-button>
+      <app-button (click)="openDeleteDialog()" className="bg-error hover:bg-error-hover active:bg-error-active"
+        [loading]="isDeletingBankAccount" [disabled]="isDeletingBankAccount"> Delete Bank Account </app-button>
       }
       }
     </section>
@@ -52,8 +87,3 @@
 
 
 </div>
-
-
-
-
-

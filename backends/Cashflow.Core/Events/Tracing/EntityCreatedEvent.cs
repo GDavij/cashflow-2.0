@@ -10,5 +10,5 @@ public class EntityCreatedEvent<T> : BaseEvent
         _entity = entity;
     }
 
-    public override string Description() => $"Entity of type {typeof(T).FullName} identified by Id {_entity.Id} has been created at {DateTime.UtcNow}";
+    public override string Description() => $"Entity of type {typeof(T).FullName} identified by Id {_entity.Id} has been created at {DateTime.UtcNow:O}";
 }

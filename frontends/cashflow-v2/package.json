@@ -23,6 +23,7 @@
     "@ng-icons/material-icons": "^30.2.0",
     "chart.js": "^4.3.0",
     "ng2-charts": "^7.0.0",
+    "ngx-mask": "^19.0.6",
     "rxjs": "~7.8.0",
     "tailwind-merge": "^2.6.0",
     "tslib": "^2.3.0",

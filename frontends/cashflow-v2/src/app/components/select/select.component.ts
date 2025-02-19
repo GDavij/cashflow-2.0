@@ -28,7 +28,6 @@ export class SelectComponent implements ControlValueAccessor, AfterViewInit, OnC
   @Input() notFoundText: string = '';
   @Input() className: string = '';
   @Input() disabled: boolean = false;
-  @Input() isStaticOptions: boolean = false;
 
   value: any;
   isOpen: boolean = false;
@@ -58,8 +57,8 @@ export class SelectComponent implements ControlValueAccessor, AfterViewInit, OnC
   }
 
   onOpenContainer() {
-    if (this.isStaticOptions && !this.alreadyHasBeenOpened) {
-      this.selectContainer.first.onOptionsChangeEvent.emit(this.isStaticOptions);
+    if (!this.alreadyHasBeenOpened) {
+      this.selectContainer.first.onOptionsChangeEvent.emit(true);
       this.alreadyHasBeenOpened = true;
     }
   }
